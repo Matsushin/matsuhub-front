@@ -62,7 +62,7 @@ export default function SignIn() {
   return (
     <div className="max-w-md w-full space-y-8 bg-white p-12">
       <div className="text-center">
-        <h1 className="text-customgreen text-6xl font-semibold">MatsuHub2</h1>
+        <h1 className="text-customgreen text-6xl font-semibold">MatsuHub3</h1>
         <h2 className="mt-8 text-center text-xl font-extrabold text-customgreen">
           ログイン
         </h2>
