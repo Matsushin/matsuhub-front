@@ -9,6 +9,8 @@ ENV PATH $HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH
 ENV HOST=0.0.0.0
 ENV PORT=80
 ARG NEXT_PUBLIC_RESTAPI_URL
+ARG NEXT_PUBLIC_BASIC_AUTH_USER
+ARG NEXT_PUBLIC_BASIC_AUTH_PASSWORD
 
 COPY package*.json ./
 COPY yarn.lock ./
