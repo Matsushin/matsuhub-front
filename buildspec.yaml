@@ -4,6 +4,7 @@ version: 0.2
 env:
   parameter-store:
     NEXT_PUBLIC_BASIC_AUTH_PASSWORD: "NEXT_PUBLIC_BASIC_AUTH_PASSWORD"
+    NEXT_PUBLIC_RESTAPI_URL: "NEXT_PUBLIC_RESTAPI_URL"
 
 phases:
   install:
