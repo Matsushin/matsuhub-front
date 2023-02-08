@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  console.log('=== 1 ===')
   console.log('=== GOOGLE_APPLICATION_CREDENTIALS ===')
   console.log(process.env.GOOGLE_APPLICATION_CREDENTIALS)
   console.log('=== GOOGLE_APPLICATION_CREDENTIALS_DATA ===')
