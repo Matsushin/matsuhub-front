@@ -31,7 +31,7 @@ phases:
       - echo NEXT_PUBLIC_BASIC_AUTH_PASSWORD=$NEXT_PUBLIC_BASIC_AUTH_PASSWORD >> ./.env
       - echo GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS >> ./.env
       - echo GOOGLE_APPLICATION_CREDENTIALS_DATA=$GOOGLE_APPLICATION_CREDENTIALS_DATA >> ./.env
-      - echo $GOOGLE_APPLICATION_CREDENTIALS_DATA | jq . >> ./credential.json
+      - echo $GOOGLE_APPLICATION_CREDENTIALS_DATA | tr -d '[:cntrl:]' | jq . >> ./credential.json
       - echo Building the Docker image...   
       - docker build --cache-from $IMAGE_URI:latest -t $IMAGE_REPO_NAME:$IMAGE_TAG .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG      
