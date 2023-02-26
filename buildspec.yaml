@@ -1,15 +1,13 @@
 ---
 version: 0.2
- 
+
 env:
   parameter-store:
-    NEXT_PUBLIC_BASIC_AUTH_USER: "NEXT_PUBLIC_BASIC_AUTH_USER"
-    NEXT_PUBLIC_BASIC_AUTH_PASSWORD: "NEXT_PUBLIC_BASIC_AUTH_PASSWORD"
-    NEXT_PUBLIC_RESTAPI_URL: "NEXT_PUBLIC_RESTAPI_URL"
-    GOOGLE_APPLICATION_CREDENTIALS: 'GOOGLE_APPLICATION_CREDENTIALS'
-    GOOGLE_APPLICATION_CREDENTIALS_DATA: 'GOOGLE_APPLICATION_CREDENTIALS_DATA'
-    DOCKERHUB_USER: "DOCKERHUB_USER"
-    DOCKERHUB_PASS: "DOCKERHUB_PASS"
+    NEXT_PUBLIC_RESTAPI_URL: 'stg_NEXT_PUBLIC_RESTAPI_URL'
+    NEXT_PUBLIC_USER: 'stg_NEXT_PUBLIC_USER'
+    NEXT_PUBLIC_PASS: 'stg_NEXT_PUBLIC_PASS'
+    DOCKERHUB_USER: 'DOCKERHUB_USER'
+    DOCKERHUB_PASS: 'DOCKERHUB_PASS'
 
 phases:
   install:
@@ -21,20 +19,15 @@ phases:
       - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${IMAGE_URI}
       - echo Logging in to Docker Hub...
       - echo ${DOCKERHUB_PASS} | docker login -u ${DOCKERHUB_USER} --password-stdin
-      - echo Pulling latest docker image...
-      - docker pull $IMAGE_URI:latest
   build:
     commands:
       - echo Build started on `date`
       - echo NEXT_PUBLIC_RESTAPI_URL=$NEXT_PUBLIC_RESTAPI_URL >> ./.env
-      - echo NEXT_PUBLIC_BASIC_AUTH_USER=$NEXT_PUBLIC_BASIC_AUTH_USER >> ./.env
-      - echo NEXT_PUBLIC_BASIC_AUTH_PASSWORD=$NEXT_PUBLIC_BASIC_AUTH_PASSWORD >> ./.env
-      - echo GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS >> ./.env
-      - echo GOOGLE_APPLICATION_CREDENTIALS_DATA=$GOOGLE_APPLICATION_CREDENTIALS_DATA >> ./.env
-      - echo $GOOGLE_APPLICATION_CREDENTIALS_DATA | tr -d '[:cntrl:]' | jq . >> ./credential.json
-      - echo Building the Docker image...   
-      - docker build --cache-from $IMAGE_URI:latest -t $IMAGE_REPO_NAME:$IMAGE_TAG .
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG      
+      - echo NEXT_PUBLIC_USER=$NEXT_PUBLIC_USER >> ./.env
+      - echo NEXT_PUBLIC_PASS=$NEXT_PUBLIC_PASS >> ./.env
+      - echo Building the Docker image...
+      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
   post_build:
     commands:
       - docker push $IMAGE_URI:$IMAGE_TAG
