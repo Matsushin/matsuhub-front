@@ -10,22 +10,30 @@ import Cookie from 'universal-cookie';
 
 export async function getServerSideProps(ctx) {
   const { req, res } = ctx;
-  if (process.env.NODE_ENV === 'production') {
+  let authorized: boolean = true;
+  if (process.env.NEXT_PUBLIC_USER && 
+      process.env.NEXT_PUBLIC_PASS && 
+      process.env.NODE_ENV === 'production' && 
+      !req.url.startsWith('/health_check')
+      ) {
     await BasicAuth(req, res);
-    if (!req.headers.authorization) {
-      res.end('<html>Unauthorized</html>');
+    if (res.statusCode === 401) {
+      authorized = false
     }
   }
   return {
     props: {
-      layout: 'notLogin'
+      layout: 'notLogin',
+      authorized: authorized
     }
   };
 }
 
 const selectCanvases = (state: RootState) => state.canvases;
 
-export default function SignIn() {
+export default function SignIn(props) {
+  const { authorized } = props;
+  if (!authorized) return <>Unauthorized</>
   const router = useRouter();
   const [email, setMail] = useState('');
   const [password, setPassword] = useState('');

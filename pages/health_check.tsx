@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 
 export const getServerSideProps = async () => ({
   props: {
-    layout: 'clientShare',
+    layout: 'notLogin',
   },
 });
 
