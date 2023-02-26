@@ -1,6 +1,4 @@
 import Cookie from "universal-cookie";
-console.log('=====')
-console.log(process.env.NEXT_PUBLIC_RESTAPI_URL)
 export const baseUrl: string = process.env.NEXT_PUBLIC_RESTAPI_URL || "";
 export const userAuthRequestHeader = async () => {
 
